@@ -16,21 +16,23 @@ weibull_plot <- function(x, status, condition=NULL){
   tmp.df$X <- log(tmp.df$x)
   
   tmp.df$Ft <- 1 - exp(- tmp.df$cumhazard)
-  tmp.df$transFt <- log10(1/(1-tmp.df$Ft))
+  tmp.df$transFt <- log10(log10(1/(1-tmp.df$Ft)))
   tmp.df <- tmp.df[tmp.df$status==1,]
   
-  result.lm <- lm(log10(transY) ~ log10(x), data=tmp.df)
-  (mhat <- result.lm$coefficients[2])
+  result.lm <- lm(transFt ~ log10(x), data=tmp.df)
+  mhat <- result.lm$coefficients[2]
   B <- result.lm$coefficients[1]
-  
-  out <-  ggplot(tmp.df, aes(x=x, y=transFt)) + 
-    geom_abline(intercept = B, slope = mhat) +
+
+  probs <- c(10^(-10:0), 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 99.9)/100
+  out <-  ggplot(tmp.df, aes(x=x, y=transFt)) +
     geom_point() + 
+    scale_y_continuous(breaks = log10(log10(1/(1-probs))), labels = probs*100) +
     scale_x_log10() +
-    scale_y_log10() +
+    geom_abline(intercept = B, slope = mhat) +
     xlab("observed value") +
     ylab("F(t) %")
   print(out)
+
 
   # estimation
   result.lm <- lm(log_cumhazard ~ X, data=tmp.df)  
