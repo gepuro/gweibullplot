@@ -18,15 +18,16 @@ weibull_plot <- function(weib.df){
   (mhat <- result.lm$coefficients[2])
   B <- result.lm$coefficients[1]
   (etahat <- exp( - B / mhat))
-  
-  ggplot(tmp.df, aes(x=x, y=Ft)) + 
+
+    
+  out <-  ggplot(tmp.df, aes(x=x, y=Ft)) + 
     geom_abline(intercept = B, slope = mhat) +
     geom_point() + 
     scale_x_log10() +
     scale_y_log10() +
     xlab("observed value") +
     ylab("F(t) %")
-  
+  print(out)
   result.lm <- lm(log_cumhazard ~ X, data=tmp.df)  
   (mhat <- result.lm$coefficients[2])
   B <- result.lm$coefficients[1]
