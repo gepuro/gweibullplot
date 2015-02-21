@@ -1,0 +1,11 @@
+Package: gweibullplot
+Type: Package
+Title: What the package does (short line)
+Version: 1.0
+Date: 2015-02-21
+Author: Who wrote it
+Maintainer: Who to complain to <gepuro@mail.gepuro.net>
+Description: More about what it does (maybe more than one line)
+License: MIT + file LICENSE
+Imports:
+    ggplot2
