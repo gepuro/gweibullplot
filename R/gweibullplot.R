@@ -5,8 +5,8 @@
 weibull_plot <- function(x, status, condition=NULL){
   # x, condition, status
   weib.df <- data.frame(x = x,
-                        condition = condition,
                         status = status)
+  weib.df$condition <- condition
   tmp.df <- weib.df[order(weib.df$x),]
   tmp.df$K <- nrow(tmp.df):1
   tmp.df$revK <- 1/tmp.df$K
